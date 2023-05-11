@@ -12,5 +12,3 @@ class States(db.Model):
         self.State_ID = State_ID
         self.State_Name = State_Name
         self.State_No = State_No
-
-## this is for testing
