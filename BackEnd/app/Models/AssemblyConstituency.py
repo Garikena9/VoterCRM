@@ -7,7 +7,7 @@ class AssemblyConstituency(db.Model):
     Constituency_Id = db.Column(db.Integer, primary_key = True)
     Constituency_Name = db.Column(db.String(100), unique = True)
     Constituency_No = db.Column(db.Integer, null = False)
-    District_Code = db.Column(db.Integer, db.ForeignKey("States.State_Id"))
+    District_Code = db.Column(db.Integer, db.ForeignKey("Districts.District_Id"))
 
     def __init__(self, Constituency_Id, Constituency_Name, Constituency_No, District_Code):
         self.Constituency_Id = Constituency_Id
