@@ -1,14 +1,14 @@
 from Backend import db
 
 
-class States(db.Model):
+class PollingStations(db.Model):
     __tablename__ = "PollingStations"
 
     Polling_Station_Id = db.Column(db.Integer, primary_key=True)
     Polling_Station_Name = db.Column(db.String(100), null=False)
     Polling_Station_No = db.Column(db.Integer, null=False)
     Polling_Station_Location = db.Column(db.String)
-    Assembly_Constituency_Code = db.Column(db.Integer, null=False,db.ForeignKey("AssemblyConstituency.Constituency_Id"))
+    Assembly_Constituency_Code = db.Column(db.Integer,db.ForeignKey("AssemblyConstituency.Constituency_Id"), null=False)
 
     def __init__(self,Polling_Station_Id, Polling_Station_Name, Polling_Station_No,Polling_Station_Location,Assembly_Constituency_Code):
         self.Polling_Station_Id = Polling_Station_Id
