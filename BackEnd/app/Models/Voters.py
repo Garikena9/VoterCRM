@@ -1,14 +1,14 @@
 from Backend import db
 
 
-class States(db.Model):
+class Voters(db.Model):
     __tablename__ = "Voters"
 
     Voter_Row_ID = db.Column(db.Integer, primary_key=True)
     Voter_UID = db.Column(db.String(10), unique=True)
     Voter_Name = db.Column(db.String(100), null=False)
     Relative_Name = db.Column(db.String(100), null=False)
-    Relation_Type = db.Column(db.Integer, null=False, db.ForeignKey("Relations.Relation_Id"))
+    Relation_Type = db.Column(db.Integer, db.ForeignKey("Relations.Relation_Id"), null=False)
     House_Number = db.Column(db.String(25), null=False)
     Age = db.Column(db.Integer, null=False)
     Gender = db.Column(db.String(10), null=False)
