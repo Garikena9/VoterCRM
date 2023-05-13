@@ -1,5 +1,5 @@
 from flask import Request
-from jwtservice import JWTService
+from .jwtservice import JWTService
 from werkzeug import exceptions
 
 
