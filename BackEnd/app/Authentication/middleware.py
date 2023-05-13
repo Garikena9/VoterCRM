@@ -1,5 +1,5 @@
 from flask import Request
-from voterCRMB.jwtservice import JWTService
+from jwtservice import JWTService
 from werkzeug import exceptions
 
 
@@ -9,9 +9,9 @@ class Middleware:
         self.jwtservice = jwtservice
 
     def auth(self, request: Request):
-        print(f'request path: {request.path}')
+        print(f"request path: {request.path}")
         is_route_unauthenticated = request.path in self.unauthenticated_route_names
-        print(f'is_route_unauthenticated: {is_route_unauthenticated}')
+        print(f"is_route_unauthenticated: {is_route_unauthenticated}")
 
         if is_route_unauthenticated:
             print("returning none for unauthenticated")
