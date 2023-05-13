@@ -5,6 +5,7 @@ CREATE TABLE Logins(
       User_Id int NOT NULL,
       IP_Address varchar(25) NOT NULL,
       Device varchar(50) NOT NULL,
+      Token text,
       Created_On datetime NOT NULL,
       Status varchar(25),
       Updated_On datetime NOT NULL,
