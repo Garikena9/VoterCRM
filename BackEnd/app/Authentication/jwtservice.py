@@ -1,6 +1,7 @@
 from jwt import PyJWT
 from time import time
 from typing import Union
+from Backend.app.Models.TokenBlacklist import TokenBlacklist
 
 
 class JWTService:
@@ -11,19 +12,19 @@ class JWTService:
         self.signing_key = signing_key
         self.expires_in_seconds = expires_in_seconds
 
-    def generate(self, data: dict, expires_in_secods: int = expires_in_seconds) -> Union[str, None]:
+    def generate(
+        self, data: dict, expires_in_secods: int = expires_in_seconds
+    ) -> Union[str, None]:
         try:
             instance = PyJWT()
             curr_unix_epoch = int(time())
-            data['iat'] = curr_unix_epoch
+            data["iat"] = curr_unix_epoch
 
             if isinstance(expires_in_secods, int):
-                data['exp'] = curr_unix_epoch + expires_in_secods
+                data["exp"] = curr_unix_epoch + expires_in_secods
 
             token = instance.encode(
-                payload=data,
-                key=self.signing_key,
-                algorithm=self.signing_algorithm
+                payload=data, key=self.signing_key, algorithm=self.signing_algorithm
             )
 
             if type(token) == bytes:
@@ -33,27 +34,27 @@ class JWTService:
         except:
             return None
 
-    def get_payload(self,token:str):
+    def get_payload(self, token: str):
         try:
-            instance=PyJWT()
+            instance = PyJWT()
             payload = instance.decode(
-                jwt=token,
-                key=self.signing_key,
-                algorithms=[self.signing_algorithm]
+                jwt=token, key=self.signing_key, algorithms=[self.signing_algorithm]
             )
             return payload
         except:
             return None
 
-    def is_valid(self,token: str,verify_time:bool=True)->bool:
+    def is_valid(self, token: str, verify_time: bool = True) -> bool:
         try:
-            payload=self.get_payload(token)
+            blacklistedtoken = TokenBlacklist.query.filter_by(JWT_Token=token).first()
+            if blacklistedtoken:
+                print("Token blacklisted")
+                return False
+            payload = self.get_payload(token)
             if payload is None:
                 return False
-            if verify_time and 'exp' in payload and payload['exp']<int(time()):
+            if verify_time and "exp" in payload and payload["exp"] < int(time()):
                 return False
             return True
         except:
             return False
-
-

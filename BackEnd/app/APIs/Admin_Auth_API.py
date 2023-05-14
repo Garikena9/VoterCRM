@@ -1,5 +1,6 @@
 from Backend.app import application, db
 from Backend.app.Models.Agents import Agents
+from Backend.app.Models.TokenBlacklist import TokenBlacklist
 from Backend.app.Authentication.jwtservice import JWTService
 from Backend.app.Authentication.middleware import Middleware
 from Backend.app.Authentication.hashingservice import HashingService
@@ -74,3 +75,12 @@ def sign_up():
 @Admin_Auth_API_blueprint.route("/api/auth/is_logged_in")
 def is_logged_in():
     return {"message": "token is valid"}
+
+
+@Admin_Auth_API_blueprint.route("/api/auth/logout")
+def log_out():
+    token = request.headers["token"]
+    tokenblacklist = TokenBlacklist(token)
+    db.session.add(tokenblacklist)
+    db.session.commit()
+    return {"message": "Logged out successfully"}
