@@ -3,7 +3,7 @@ from Backend.app.Models.Agents import Agents
 from Backend.app.Authentication.jwtservice import JWTService
 from Backend.app.Authentication.middleware import Middleware
 from Backend.app.Authentication.hashingservice import HashingService
-from flask import request
+from flask import request, Blueprint
 from werkzeug import exceptions
 import uuid
 
@@ -16,8 +16,9 @@ hashing_service = HashingService()
 
 application.before_request(lambda: middleware.auth(request))
 
+Admin_Auth_API_blueprint = Blueprint('Admin_Auth_API', __name__)
 
-@application.route("/api/auth/login", methods=["POST"])
+@Admin_Auth_API_blueprint.route("/api/auth/login", methods=["POST"])
 def log_in():
     username, password = request.json["Username"], request.json["Password"]
     admin = Agents.query.filter_by(Username=username).first()
@@ -41,9 +42,9 @@ def log_in():
     return {"token": token}
 
 
-@application.route("/api/auth/signup", methods=["POST"])
+@Admin_Auth_API_blueprint.route("/api/auth/signup", methods=["POST"])
 def sign_up():
-    First_name, Last_name, Username, Password, Email_Id, IsAdmin, Gender = (
+    First_name, Last_name, Username, Password, Email_Id, IsAdmin, Gender, Phone_No, Address = (
         request.json["First_name"],
         request.json["Last_name"],
         request.json["Username"],
@@ -51,6 +52,8 @@ def sign_up():
         request.json["Email_Id"],
         request.json["IsAdmin"],
         request.json["Gender"],
+        request.json["Phone_No"],
+        request.json["Address"]
     )
     print(f'request.headers.get("sign_up_key"): {request.headers.get("signupkey")}')
     print(f"sign_up_key: {sign_up_key}")
@@ -61,13 +64,13 @@ def sign_up():
     )
 
     admin = Agents(
-        First_name, Last_name, Username, password_hash, Email_Id, IsAdmin, Gender
+        First_name, Last_name, Username, password_hash, Email_Id, IsAdmin, Gender, Phone_No, Address
     )
     db.session.add(admin)
     db.session.commit()
     return {"message": "Admin Created Successfully"}
 
 
-@application.route("/api/auth/is_logged_in")
+@Admin_Auth_API_blueprint.route("/api/auth/is_logged_in")
 def is_logged_in():
     return {"message": "token is valid"}
