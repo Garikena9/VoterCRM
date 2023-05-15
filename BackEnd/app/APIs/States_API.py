@@ -15,7 +15,7 @@ middleware = Middleware(jwt_service)
 States_API_blueprint = Blueprint("States_API", __name__)
 
 
-@States_API_blueprint.route("/api/states")
+@States_API_blueprint.route("/admin/states")
 def get_all_states():
     print(f"url accessed")
     states = States.query.all()
@@ -33,7 +33,7 @@ def get_all_states():
         return {"message": "No states Available"}
 
 
-@States_API_blueprint.route("/api/add_state", methods=["POST"])
+@States_API_blueprint.route("/admin/add_state", methods=["POST"])
 def add_state():
     body = request.json
     state = States(body["State_Id"], body["State_Name"], body["State_No"])

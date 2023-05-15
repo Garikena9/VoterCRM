@@ -19,7 +19,7 @@ application.before_request(lambda: middleware.auth(request))
 
 Admin_Auth_API_blueprint = Blueprint('Admin_Auth_API', __name__)
 
-@Admin_Auth_API_blueprint.route("/api/auth/login", methods=["POST"])
+@Admin_Auth_API_blueprint.route("/admin/auth/login", methods=["POST"])
 def log_in():
     username, password = request.json["Username"], request.json["Password"]
     admin = Agents.query.filter_by(Username=username).first()
@@ -43,7 +43,7 @@ def log_in():
     return {"token": token}
 
 
-@Admin_Auth_API_blueprint.route("/api/auth/signup", methods=["POST"])
+@Admin_Auth_API_blueprint.route("/admin/auth/signup", methods=["POST"])
 def sign_up():
     First_name, Last_name, Username, Password, Email_Id, IsAdmin, Gender, Phone_No, Address = (
         request.json["First_name"],
@@ -72,12 +72,12 @@ def sign_up():
     return {"message": "Admin Created Successfully"}
 
 
-@Admin_Auth_API_blueprint.route("/api/auth/is_logged_in")
+@Admin_Auth_API_blueprint.route("/admin/auth/is_logged_in")
 def is_logged_in():
     return {"message": "token is valid"}
 
 
-@Admin_Auth_API_blueprint.route("/api/auth/logout")
+@Admin_Auth_API_blueprint.route("/admin/auth/logout")
 def log_out():
     token = request.headers["token"]
     tokenblacklist = TokenBlacklist(token)
