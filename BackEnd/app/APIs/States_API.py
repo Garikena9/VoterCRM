@@ -10,7 +10,7 @@ jwt_secret = "secret"
 jwt_service = JWTService(jwt_secret)
 middleware = Middleware(jwt_service)
 
-# application.before_request(lambda: middleware.auth(request))
+application.before_request(lambda: middleware.auth(request))
 
 States_API_blueprint = Blueprint("States_API", __name__)
 

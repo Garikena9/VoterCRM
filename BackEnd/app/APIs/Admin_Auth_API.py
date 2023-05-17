@@ -1,10 +1,10 @@
 from Backend.app import application, db
 from Backend.app.Models.Agents import Agents
 from Backend.app.Models.TokenBlacklist import TokenBlacklist
+from flask import request, Blueprint, redirect, url_for
 from Backend.app.Authentication.jwtservice import JWTService
 from Backend.app.Authentication.middleware import Middleware
 from Backend.app.Authentication.hashingservice import HashingService
-from flask import request, Blueprint, redirect, url_for
 from werkzeug import exceptions
 import uuid
 
@@ -16,6 +16,7 @@ middleware = Middleware(jwt_service)
 hashing_service = HashingService()
 
 application.before_request(lambda: middleware.auth(request))
+
 
 Admin_Auth_API_blueprint = Blueprint("Admin_Auth_API", __name__)
 
@@ -119,18 +120,14 @@ def change_password():
     admin = Agents.query.filter_by(Username=username).first()
     if admin is None:
         redirect(url_for("Admin_Auth_API.log_out"))
-        return exceptions.Unauthorized(
-            description="Incorrect username"
-        )
+        return exceptions.Unauthorized(description="Incorrect username")
     is_password_correct = hashing_service.check_bcrypt(
         old_password.encode("utf-8"), admin.Hash_Password.encode("utf-8")
     )
 
     if not is_password_correct:
         redirect(url_for("Admin_Auth_API.log_out"))
-        return exceptions.Unauthorized(
-            description="Incorrect password"
-        )
+        return exceptions.Unauthorized(description="Incorrect password")
     admin.Hash_Password = hashing_service.hash_bcrypt(
         new_password.encode("utf-8")
     ).decode("utf-8")
