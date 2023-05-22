@@ -1,4 +1,4 @@
-from Backend import db
+from  Backend.app import db
 
 
 class Districts(db.Model):
@@ -6,7 +6,7 @@ class Districts(db.Model):
 
     District_Id = db.Column(db.Integer, primary_key = True)
     District_Name = db.Column(db.String(100), unique = True)
-    District_No = db.Column(db.Integer, null = False)
+    District_No = db.Column(db.Integer, nullable = False)
     State_Code = db.Column(db.Integer, db.ForeignKey("States.State_Id"))
 
     def __init__(self, District_Id, District_Name, District_No, State_Code):

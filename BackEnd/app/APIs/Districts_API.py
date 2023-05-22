@@ -60,7 +60,7 @@ def update_district():
             request.json["District_Id"],
             request.json["To_Update_Dist_Name"],
             request.json["To_Update_Dist_No"]
-        ) 
+        )
         existing_district = Districts.query.filter_by(District_Id=district_id).first()
         if existing_district:
             existing_district.District_Name = Updated_dist_name
