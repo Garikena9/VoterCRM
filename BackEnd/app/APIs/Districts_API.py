@@ -13,23 +13,25 @@ application.before_request(lambda: middleware.auth(request))
 
 Districts_API_blueprint = Blueprint("Districts_API", __name__)
 
-@Districts_API_blueprint.route("/admin/districts", methods=["GET"])
-def get_all_districts():
-    districts = Districts.query.all()
-    if districts:
-        district_list = []
-        for district in districts:
-            print(f'district name: {district.District_Name}')
-            district_dict={}
-            district_dict['District_Id']=district.District_Id
-            district_dict['District_Name']=district.District_Name
-            district_dict['District_No']=district.District_No
-            district_dict['State_Code']=district.State_Code
-            district_list.append(district_dict)
-        return {"districts": district_list}
-    else:
-        return {"message": "No districts available"}
-    
+@Districts_API_blueprint.route("/admin/districts_list", methods=["POST"])
+def districts_list():
+    state_code = request.json["State_Code"] #Fetch districts by state code
+    try:
+        districts_by_state = Districts.query.filter_by(State_Code=state_code).all()
+        if districts_by_state:
+            district_list = []
+            for district in districts_by_state:
+                district_dict={}
+                district_dict['District_Id']=district.District_Id
+                district_dict['District_Name']=district.District_Name
+                district_dict['District_No']=district.District_No
+                district_dict['State_Code']=district.State_Code
+                district_list.append(district_dict)
+            return {"districts": district_list}
+        else:
+            return {"message": "No districts available in the state"}
+    except:
+            return {"message": "Error deleting districts"}
     
 @Districts_API_blueprint.route("/admin/add_district", methods=["POST"])
 def add_district():
