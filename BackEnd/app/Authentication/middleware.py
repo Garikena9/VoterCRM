@@ -5,7 +5,7 @@ from werkzeug import exceptions
 
 class Middleware:
     def __init__(self, jwtservice: JWTService):
-        self.unauthenticated_route_names = {"/admin/auth/login", "/admin/auth/signup","/admin/assemblyconstituency","/admin/add_constituency","/admin/delete_constituency","/admin/update_constituency_name"}
+        self.unauthenticated_route_names = {"/admin/auth/login", "/admin/auth/signup"}
         self.jwtservice = jwtservice
 
     def auth(self, request: Request):
