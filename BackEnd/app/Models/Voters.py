@@ -6,15 +6,30 @@ class Voters(db.Model):
 
     Voter_Row_ID = db.Column(db.Integer, primary_key=True)
     Voter_UID = db.Column(db.String(10), unique=True)
-    Voter_Name = db.Column(db.String(100), null=False)
-    Relative_Name = db.Column(db.String(100), null=False)
-    Relation_Type = db.Column(db.Integer, db.ForeignKey("Relations.Relation_Id"), null=False)
-    House_Number = db.Column(db.String(25), null=False)
-    Age = db.Column(db.Integer, null=False)
-    Gender = db.Column(db.String(10), null=False)
-    Polling_Station_Code = db.Column(db.Integer, db.ForeignKey("PollingStations.Polling_Station_Id"))
+    Voter_Name = db.Column(db.String(100), nullable=False)
+    Relative_Name = db.Column(db.String(100), nullable=False)
+    Relation_Type = db.Column(
+        db.Integer, db.ForeignKey("Relations.Relation_Id"), nullable=False
+    )
+    House_Number = db.Column(db.String(25), nullable=False)
+    Age = db.Column(db.Integer, nullable=False)
+    Gender = db.Column(db.String(10), nullable=False)
+    Polling_Station_Code = db.Column(
+        db.Integer, db.ForeignKey("PollingStations.Polling_Station_Id")
+    )
 
-    def __init__(self,Voter_Row_ID, Voter_UID, Voter_Name,Relative_Name,Relation_Type,House_Number,Age,Gender,Polling_Station_Code):
+    def __init__(
+        self,
+        Voter_Row_ID,
+        Voter_UID,
+        Voter_Name,
+        Relative_Name,
+        Relation_Type,
+        House_Number,
+        Age,
+        Gender,
+        Polling_Station_Code,
+    ):
         self.Voter_Row_ID = Voter_Row_ID
         self.Voter_UID = Voter_UID
         self.Voter_Name = Voter_Name
