@@ -89,7 +89,7 @@ def constituency_delete():
 
 # Endpoint for updating a guide
 @AssemblyConstituency_API_blueprint.route(
-    "/admin/update_constituency_name", methods=["PUT"]
+    "/admin/update_constituency", methods=["PUT"]
 )
 def constituesncy_update():
     body = request.json
