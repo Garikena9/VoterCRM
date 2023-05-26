@@ -28,7 +28,7 @@ def upload():
         next(csv_data)  # Skip header row if needed
         for row in csv_data:
             # Assuming the CSV columns are in the order of column1, column2
-            data = Voters(uuid.uuid1().int>>97,row[2],row[3],row[4],1,row[8],row[6],row[7],65)
+            data = Voters(uuid.uuid1().int>>97,row[2],row[3],row[4],row[5],row[8],row[6],row[7],row[11])
             db.session.add(data)
             db.session.commit()
         return 'File uploaded and data inserted into the database table successfully.'
