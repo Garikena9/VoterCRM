@@ -1,5 +1,8 @@
 from Backend.app.__init__ import application, db
 from Backend.app.Models.Voters import *
+from Backend.app.Models.PollingStations import *
+from Backend.app.Models.Relations import *
+
 from Backend.app.Authentication.jwtservice import JWTService
 from Backend.app.Authentication.middleware import Middleware
 from flask import request, Blueprint
@@ -25,7 +28,7 @@ def upload():
         next(csv_data)  # Skip header row if needed
         for row in csv_data:
             # Assuming the CSV columns are in the order of column1, column2
-            data = Voters(uuid.uuid1().int>>97,row[2],row[3],row[4],row[5],row[8],row[6],row[7],row[11])
+            data = Voters(uuid.uuid1().int>>97,row[2],row[3],row[4],1,row[8],row[6],row[7],65)
             db.session.add(data)
             db.session.commit()
         return 'File uploaded and data inserted into the database table successfully.'

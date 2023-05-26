@@ -8,10 +8,8 @@ class Voters(db.Model):
     Voter_UID = db.Column(db.String(10), unique=True)
     Voter_Name = db.Column(db.String(100), nullable=False)
     Relative_Name = db.Column(db.String(100), nullable=False)
-    Relation_Type = db.Column(
-        db.Integer, db.ForeignKey("Relations.Relation_Id"), nullable=False
-    )
-    House_Number = db.Column(db.String(25), nullable=False)
+    Relation_Type = db.Column(db.Integer, db.ForeignKey("Relations.Relation_Id"),nullable=False)
+    House_Number = db.Column(db.Text, nullable=False)
     Age = db.Column(db.Integer, nullable=False)
     Gender = db.Column(db.String(10), nullable=False)
     Polling_Station_Code = db.Column(
