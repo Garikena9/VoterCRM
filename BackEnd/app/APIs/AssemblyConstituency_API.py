@@ -4,7 +4,7 @@ from Backend.app.Models.Districts import *
 from Backend.app.Models.States import *
 from Backend.app.Authentication.jwtservice import JWTService
 from Backend.app.Authentication.middleware import Middleware
-from flask import request, Blueprint
+from flask import request, Blueprint, jsonify
 import uuid
 
 jwt_secret = "secret"
@@ -22,18 +22,25 @@ AssemblyConstituency_API_blueprint = Blueprint("AssemblyConstituency_API", __nam
 )
 def get_all_constituencies():
     try:
+        
         body = request.json
         if "District_Name" in body:
             district_name = request.json["District_Name"]
             dis = Districts.query.filter_by(District_Name=district_name).one()
+
         if "State_Name" in body:
             state_name = request.json["State_Name"]
+            print("0")
+            print(state_name)
             state = States.query.filter_by(State_Name=state_name).one()
+            print("1")
+            print(state.State_Id)
             dis = Districts.query.filter_by(State_Code=state.State_Id).one()
+            print("2")
         constituency_district = AssemblyConstituency.query.filter_by(
             District_Code=dis.District_Id
         ).all()
-
+        
         if constituency_district:
             constituency_list = []
 
@@ -45,8 +52,8 @@ def get_all_constituencies():
                 constituency_dict["District_Code"] = constituency.District_Code
                 constituency_list.append(constituency_dict)
             return {"constituency": constituency_list}
-    except:
-        return {"message": "No constituency Available"}
+    except Exception as e:
+        return jsonify("Error: " + str(e))
 
 
 @AssemblyConstituency_API_blueprint.route("/admin/add_constituency", methods=["POST"])
